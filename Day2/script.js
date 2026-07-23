@@ -1,2 +1,2 @@
 const sumvalue=require("./Fruit");
-console.log(sumvalue);
+console.log(sumvalue); 
