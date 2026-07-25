@@ -7,8 +7,10 @@
   },
   "author": "Hardhik",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "express": "^5.2.1"
-  }
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "description": ""
 }
