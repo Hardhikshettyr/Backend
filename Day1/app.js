@@ -9,8 +9,11 @@ app.listen(3000,()=>{
     console.log("Server Started");
 })
 
-app.use((req,res)=>{
+app.use((req,res,next)=>{
     console.log("request received");
-    res.send("hi");
+    next();
 })
 
+app.get('/',(req,res)=>{
+    res.send("hello");
+})
