@@ -14,6 +14,10 @@ app.use((req,res,next)=>{
     next();
 })
 
-app.get('/',(req,res)=>{
-    res.send("hell");
+app.get('/:username/:id',(req,res)=>{
+    console.log(req.params.id);
+    res.send(req.params.id);
+})
+app.get('/search',(req,res)=>{
+    console.log(req.query.q)
 })
