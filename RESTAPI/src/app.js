@@ -39,6 +39,10 @@ app.get("/notes/:index", (req, res) => {
         note: notes[index],
         message: "Displayed successfully"
     });
+
+
+
+    
 });
 
 app.delete("/notes/:index", (req, res) => {
