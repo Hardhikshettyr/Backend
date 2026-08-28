@@ -1,9 +1,11 @@
+require("dotenv").config();
 const app=require("./src/app");
-const connectDb=require("./src/db/db")
-
+const connectdb=require("./src/db/db");
 
 
 app.listen(3000,()=>{
-    console.log("Server Started");
+    console.log("Server Connected");
 })
-connectDb();
+
+
+connectdb();
