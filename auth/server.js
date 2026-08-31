@@ -1,8 +1,8 @@
-require("dotenv").config();
 const app=require("./src/app");
 const connectdb=require("./src/db/db");
 
-app.listen(3000,()=>{
-    console.log("Server Started")
-})
 connectdb();
+
+app.listen(3000,()=>{
+    console.log("Server created at port 3000");
+});
