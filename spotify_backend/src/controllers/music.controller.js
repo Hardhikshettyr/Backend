@@ -4,21 +4,7 @@ const{uploadfile}=require("../services/storage.service");
 const jwt=require("jsonwebtoken");
 
 async function createMusic(req,res){
-    const token=req.cookies.token;
-    if(!token){
-        return res.status(401).json({
-            message:"Unauthorized",
-        })
-    }
-    try{
-        const decode=jwt.verify(token,process.env.JWT_SECRET);
-        if(decode.role!=="artist"){
-            return res.status(403).json({
-                message:"Forbidden Access"
-            })
-        }
     
-
     const title=req.body.title;
     const file=req.file;
 
@@ -26,7 +12,7 @@ async function createMusic(req,res){
     const music=await musicmodel.create({
         uri:result.url,
         title,
-        artist:decode.id
+        artist:req.user.id
     });
 
     res.status(201).json({
@@ -38,36 +24,15 @@ async function createMusic(req,res){
             artist:music.artist
         }
     })
-    }
-    catch(err){
-        console.log(err);
-        return res.status(401).json({
-            
-            message:"Unauthorized",
-        })
-    }
+    
 
 }
 
 async function createalbum(req,res){
-    const token=req.cookies.token;
-    if(!token){
-        return res.status(401).json({
-            message:"Unauthorized",
-        })
-    }
-    try{
-        const decode=jwt.verify(token,process.env.JWT_SECRET);
-        if(decode.role!=="artist"){
-            return res.status(403).json({
-                message:"Forbidden Access"
-            })
-        }
-
         const{title,musics}=req.body;
         const album=await albummodel.create({
             title,
-            artist:decode.id,
+            artist:req.user.id,
             musics:musics
         })
         res.status(201).json({
@@ -79,12 +44,20 @@ async function createalbum(req,res){
                 musics:album.musics
             }
         })
-    }catch(err){
-        console.log(err);
-        return res.status(401).json({
-            
-            message:"Unauthorized",
-        })
-    }
 }
-module.exports={createMusic, createalbum};
+
+async function getAllMusic(req,res){
+    const musics=await musicmodel.find().populate("artist","usernam email");
+    res.status(200).json({
+        message:"Music displayed Successfully",
+        musics:musics
+    })
+}
+async function getAllAlbum(req,res){
+    const albums=await albummodel.find().populate("artist", "username email").populate("musics");
+    res.status(200).json({
+        message:"Albums displayed Successfully",
+        albums:albums
+    })
+}
+module.exports={createMusic, createalbum,getAllMusic,getAllAlbum};
