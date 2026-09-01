@@ -5,6 +5,11 @@ const imagekit=new Imagekit({
 
 async function uploadfile(file){
     const result=await imagekit.files.upload({
-        
+        file,
+        fileName:"music_"+Date.now(),
+        folder:"music"
     })
+    return result
 }
+
+module.exports={uploadfile};
