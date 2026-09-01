@@ -47,17 +47,25 @@ async function createalbum(req,res){
 }
 
 async function getAllMusic(req,res){
-    const musics=await musicmodel.find().populate("artist","usernam email");
+    const musics=await musicmodel.find().populate("artist","usernam email").skip(2).limit(1);
     res.status(200).json({
         message:"Music displayed Successfully",
         musics:musics
     })
 }
 async function getAllAlbum(req,res){
-    const albums=await albummodel.find().populate("artist", "username email").populate("musics");
+    const albums=await albummodel.find().select("title artist").populate("artist", "username email");
     res.status(200).json({
         message:"Albums displayed Successfully",
         albums:albums
     })
 }
-module.exports={createMusic, createalbum,getAllMusic,getAllAlbum};
+async function getAlbumById(req,res){
+    const albumid=req.params.id;
+    const album=await albummodel.findById(albumid).populate("artist","email username").populate("musics");
+    res.status(200).json({
+        message:"Albums displayed Successfully",
+        album:album
+    })
+}
+module.exports={createMusic, createalbum,getAllMusic,getAllAlbum,getAlbumById};
